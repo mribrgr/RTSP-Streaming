@@ -5,14 +5,18 @@ import org.junit.jupiter.api.Test;
 class FECpacketTest {
 
   @Test
-  void setFecHeader() {}
+  void setFecHeader() {
+  }
 
   @Test
-  void setUlpLevelHeader() {}
+  void setUlpLevelHeader() {
+  }
 
   @Test
-  void getRtpList() {}
+  void getRtpList() {
+  }
 
   @Test
-  void addRtp() {}
+  void addRtp() {
+  }
 }
