@@ -1,3 +1,4 @@
+// @formatter:off
 /*
     Information according to RFC 5109
     Implementation: http://apidocs.jitsi.org/libjitsi/
@@ -46,6 +47,7 @@
    |              mask cont. (present only when L = 1)             |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 */
+// @formatter:on
 
 /**
  * @author Jörg Vogt
@@ -85,21 +87,21 @@ public class FECpacket extends RTPpacket {
   // *** FEC Parameters **********************
   int fecGroupSize; // FEC-Gruppengröße
 
-
   // ##############################################################################################
 
   /**
    * Construct FEC packet from parameters
-   * @param PType Payload Type
-   * @param Framenb Sequence Nr
-   * @param Time   Time Stamp
+   * 
+   * @param PType        Payload Type
+   * @param Framenb      Sequence Nr
+   * @param Time         Time Stamp
    * @param maxGroupSize maximum supported group size
-   * @param snBase base for sequence nr.
+   * @param snBase       base for sequence nr.
    */
   public FECpacket(int PType, int Framenb, int Time, int maxGroupSize, int snBase) {
     super(PType, Framenb, Time, new byte[0], 0);
     setFecHeader(maxGroupSize, snBase);
-    setUlpLevelHeader(0,0,maxGroupSize);
+    setUlpLevelHeader(0, 0, maxGroupSize);
   }
 
   // ##############################################################################################
@@ -107,7 +109,7 @@ public class FECpacket extends RTPpacket {
   /**
    * Constructor for Receiver
    *
-   * @param packet bitstream
+   * @param packet      bitstream
    * @param packet_size size
    */
   public FECpacket(byte[] packet, int packet_size) {
@@ -117,23 +119,22 @@ public class FECpacket extends RTPpacket {
 
     extractFecHeader(); // sets the header arrays and the variables
     // removes the fec-header from the payload
-    byte[] buf = new byte[payload.length- FEC_HEADER_SIZE - ulpLevelHeader.length];
-    System.arraycopy(payload,FEC_HEADER_SIZE+ulpLevelHeader.length,
-        buf, 0, payload.length-FEC_HEADER_SIZE-ulpLevelHeader.length);
+    byte[] buf = new byte[payload.length - FEC_HEADER_SIZE - ulpLevelHeader.length];
+    System.arraycopy(payload, FEC_HEADER_SIZE + ulpLevelHeader.length,
+        buf, 0, payload.length - FEC_HEADER_SIZE - ulpLevelHeader.length);
     payload = buf;
   }
 
   // ##############################################################################################
 
-
   /**
    * Sets the FEC-Header-variables and generates the Header-Array
    *
    * @param maxGroupSize to generate al short or long mask for ULP
-   * @param ptRec  PayloadType
-   * @param snBase SN
-   * @param tsRec  Timestamp
-   * @param lengthRec Length
+   * @param ptRec        PayloadType
+   * @param snBase       SN
+   * @param tsRec        Timestamp
+   * @param lengthRec    Length
    */
   public void setFecHeader(int maxGroupSize, int ptRec, int snBase, int tsRec, int lengthRec) {
     ptRecovery = ptRec;
@@ -150,9 +151,9 @@ public class FECpacket extends RTPpacket {
 
   private void setFecHeader() {
     // FEC-Header
-    // P,X,CC,M,PT, TS  is  XORed
+    // P,X,CC,M,PT, TS is XORed
     fecHeader[0] = (byte) (E << 7 | L << 6);
-    fecHeader[1] = (byte) (M<< 7 | ptRecovery);
+    fecHeader[1] = (byte) (M << 7 | ptRecovery);
     fecHeader[2] = (byte) (snBase >> 8);
     fecHeader[3] = (byte) (0xFF & snBase);
     fecHeader[4] = (byte) (tsRecovery >> 24);
@@ -163,13 +164,12 @@ public class FECpacket extends RTPpacket {
     fecHeader[9] = (byte) (0xFF & lengthRecovery);
   }
 
-
   /**
    * Sets the ULP-Variables and generates the Header
    *
-   * @param level always 0
+   * @param level            always 0
    * @param protectionLength set to max Length
-   * @param fecGroupSize corresponding packets
+   * @param fecGroupSize     corresponding packets
    */
   public void setUlpLevelHeader(int level, int protectionLength, int fecGroupSize) {
     // Level is always 0
@@ -203,15 +203,17 @@ public class FECpacket extends RTPpacket {
 
   /**
    * Generates a list of involved RTP packets, starting with snBase
+   * 
    * @return list of sequence numbers
    */
   public ArrayList<Integer> getRtpList() {
     // determine the involved media packets (base address + mask)
     ArrayList<Integer> list = new ArrayList<>();
-    //System.out.println("FEC: base + mask " + snBase + " " + Long.toHexString(mask) );
+    // System.out.println("FEC: base + mask " + snBase + " " +
+    // Long.toHexString(mask) );
     // generates involved packet numbers from mask
     for (int i = 0; i < 48; i++) {
-      if ( (mask & 0x8000000000000000L) != 0 ) {
+      if ((mask & 0x8000000000000000L) != 0) {
         list.add(snBase + i);
       }
       mask = mask << 1;
@@ -243,15 +245,14 @@ public class FECpacket extends RTPpacket {
     return packet;
   }
 
-
   // ##############################################################################################
-
 
   // Java Unsigned Bytes
   // https://sites.google.com/site/gencoreoperative/index/java-development/java-unsigned-bytes
 
-  /** retrieves the FEC-header from the RTP payload
-   *  data is received from RTP packet payload
+  /**
+   * retrieves the FEC-header from the RTP payload
+   * data is received from RTP packet payload
    *
    */
   private void extractFecHeader() {
@@ -263,30 +264,31 @@ public class FECpacket extends RTPpacket {
     ptRecovery = 0x7F & fecHeader[1];
     snBase = (0xFF & fecHeader[2]) * 256 + (0xFF & fecHeader[3]);
     // TODO check if correct
-    tsRecovery =
-        (0xFFFFFF & fecHeader[4]) * 0xFFFF
-            + (0xFF & fecHeader[5])
-            + (0xFF & fecHeader[6]) * 256
-            + (0xFF & fecHeader[7]);
+    tsRecovery = (0xFFFFFF & fecHeader[4]) * 0xFFFF
+        + (0xFF & fecHeader[5])
+        + (0xFF & fecHeader[6]) * 256
+        + (0xFF & fecHeader[7]);
     lengthRecovery = (0xFF & fecHeader[8]) * 256 + (0xFF & fecHeader[9]);
 
     // ULP Level Header
-    if (L == 0) ulpLevelHeader = new byte[ULP_HEADER_SIZE0];
-    else ulpLevelHeader = new byte[ULP_HEADER_SIZE1];
+    if (L == 0)
+      ulpLevelHeader = new byte[ULP_HEADER_SIZE0];
+    else
+      ulpLevelHeader = new byte[ULP_HEADER_SIZE1];
     // copy the ULP header
     System.arraycopy(payload, FEC_HEADER_SIZE, ulpLevelHeader, 0, ulpLevelHeader.length);
     protectionLength = (0xFF & ulpLevelHeader[0]) * 256 + (0xFF & ulpLevelHeader[1]);
     // Small mask
     mask = ((0xFFL & ulpLevelHeader[2]) << 56) + ((0xFFL & ulpLevelHeader[3]) << 48);
-    // System.out.println("FEC mask: " + ulpLevelHeader[2] + " " + ulpLevelHeader[3] + " " +
+    // System.out.println("FEC mask: " + ulpLevelHeader[2] + " " + ulpLevelHeader[3]
+    // + " " +
     // Long.toHexString(mask));
     // Large mask
     if (L == 1) {
-      mask |=
-          ((0xFFL & ulpLevelHeader[4]) << 40)
-              + ((0xFFL & ulpLevelHeader[5]) << 32)
-              + ((0xFFL & ulpLevelHeader[6]) << 24)
-              + ((0xFFL & ulpLevelHeader[7]) << 16);
+      mask |= ((0xFFL & ulpLevelHeader[4]) << 40)
+          + ((0xFFL & ulpLevelHeader[5]) << 32)
+          + ((0xFFL & ulpLevelHeader[6]) << 24)
+          + ((0xFFL & ulpLevelHeader[7]) << 16);
     }
   }
 
@@ -330,21 +332,21 @@ public class FECpacket extends RTPpacket {
     ptRecovery ^= rtp.getpayloadtype();
     tsRecovery ^= rtp.gettimestamp();
 
-    setFecHeader();  // update Header with changed variables
+    setFecHeader(); // update Header with changed variables
   }
-
 
   /**
    * Generates the lost RTP packet from the XORed values
+   * 
    * @return rtp
    */
   public RTPpacket getLostRtp(int snr) {
     // TODO get the correct SNr
-    return new RTPpacket(ptRecovery, snr  ,tsRecovery, payload, lengthRecovery);
+    return new RTPpacket(ptRecovery, snr, tsRecovery, payload, lengthRecovery);
   }
 
-
-  // *************** Debugging *******************************************************************
+  // *************** Debugging
+  // *******************************************************************
 
   /**
    * Prints the FEC- and ULP-Header fields
