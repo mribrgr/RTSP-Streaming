@@ -1,2 +1,6 @@
 bin/
 old/
+out/
+.DS_Store
+videos/
+*.mjpeg
