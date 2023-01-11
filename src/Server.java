@@ -22,8 +22,8 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
   DatagramSocket RTPsocket; // socket to be used to send and receive UDP packets
   DatagramPacket senddp; // UDP packet containing the video frames
   InetAddress ClientIPAddr; // Client IP address
-  int RTP_dest_port = 0; // destination port for RTP packets  (given by the RTSP Client)
-  int FEC_dest_port = 0; // destination port for RTP-FEC packets  (RTP or RTP+2)
+  int RTP_dest_port = 0; // destination port for RTP packets (given by the RTSP Client)
+  int FEC_dest_port = 0; // destination port for RTP-FEC packets (RTP or RTP+2)
   final static int startGroupSize = 2;
   RtpHandler rtpHandler = null;
   // Channel errors
@@ -75,8 +75,6 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
 
   static final String CRLF = "\r\n";
 
-
-
   public Server() {
     super("Server"); // init Frame
     Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -97,7 +95,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
 
     // GUI:
     label = new JLabel("Send frame #        ", JLabel.CENTER);
-    stateLabel = new JLabel("State:         ",JLabel.CENTER);
+    stateLabel = new JLabel("State:         ", JLabel.CENTER);
     getContentPane().add(label, BorderLayout.NORTH);
     getContentPane().add(stateLabel, BorderLayout.SOUTH);
     // Error Slider
@@ -174,20 +172,20 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
    * @param ev ItemEvent
    */
   public void radioButtonSelected(ItemEvent ev) {
-    JRadioButton rb = (JRadioButton)ev.getItem();
+    JRadioButton rb = (JRadioButton) ev.getItem();
     if (rb.isSelected()) {
       String label = rb.getText();
       RtpHandler.EncryptionMode mode = RtpHandler.EncryptionMode.NONE;
 
       switch (label) {
-      case "SRTP":
-        mode = RtpHandler.EncryptionMode.SRTP;
-        break;
-      case "JPEG":
-        mode = RtpHandler.EncryptionMode.JPEG;
-        break;
-      default:
-        break;
+        case "SRTP":
+          mode = RtpHandler.EncryptionMode.SRTP;
+          break;
+        case "JPEG":
+          mode = RtpHandler.EncryptionMode.JPEG;
+          break;
+        default:
+          break;
       }
 
       boolean encryptionSet = rtpHandler.setEncryption(mode);
@@ -209,7 +207,8 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
   public static void main(String[] argv) throws Exception {
     Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     CustomLoggingHandler.prepareLogger(logger);
-    /* set logging level
+    /*
+     * set logging level
      * Level.CONFIG: default information (incl. RTSP requests)
      * Level.ALL: debugging information (headers, received packages and so on)
      */
@@ -235,13 +234,9 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
     state = INIT;
     stateLabel.setText("INIT");
 
-
     // Set input and output stream filters:
-    RTSPBufferedReader =
-        new BufferedReader(new InputStreamReader(theServer.RTSPsocket.getInputStream()));
-    RTSPBufferedWriter =
-        new BufferedWriter(new OutputStreamWriter(theServer.RTSPsocket.getOutputStream()));
-
+    RTSPBufferedReader = new BufferedReader(new InputStreamReader(theServer.RTSPsocket.getInputStream()));
+    RTSPBufferedWriter = new BufferedWriter(new OutputStreamWriter(theServer.RTSPsocket.getOutputStream()));
 
     int request_type;
 
@@ -310,8 +305,8 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
           theServer.timer.stop();
           theServer.videoMeta = null;
           // close sockets
-          //theServer.RTSPsocket.close();
-          // theServer.RTPsocket.close();
+          // theServer.RTSPsocket.close();
+          theServer.RTPsocket.close();
           break;
 
         case OPTIONS:
@@ -362,7 +357,8 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
 
         // update GUI
         label.setText("Send frame #" + imagenb);
-      } else timer.stop();
+      } else
+        timer.stop();
     } catch (Exception ex) {
       logger.log(Level.SEVERE, "Exception caught: " + ex);
       ex.printStackTrace();
@@ -377,17 +373,20 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
   private void sendPacketWithError(DatagramPacket senddp, boolean fec) throws Exception {
     Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     String label;
-    if (fec) label = " fec ";
-    else label = " media ";
-    // TASK correct the if-instruction to work properly
-    if (random.nextDouble() > 0.0) {
+    if (fec)
+      label = " fec ";
+    else
+      label = " media ";
+    // correct the if-instruction to work properly
+    if (random.nextDouble() > lossRate) {
       logger.log(Level.FINE, "Send frame: " + imagenb + label);
       RTPsocket.send(senddp);
     } else {
       System.err.println("Dropped frame: " + imagenb + label);
-      if (!fec) dropCounter++;
+      if (!fec)
+        dropCounter++;
     }
-    // System.out.println("Drop count media packets: " +  dropCounter);
+    // System.out.println("Drop count media packets: " + dropCounter);
   }
 
   /**
@@ -431,12 +430,12 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
       }
 
       if (request_type == SETUP
-              || request_type == DESCRIBE) {
+          || request_type == DESCRIBE) {
         // extract VideoFileName from RequestLine
         String dir = tokens.nextToken();
-        //String[] tok = dir.split(".+?/(?=[^/]+$)");
+        // String[] tok = dir.split(".+?/(?=[^/]+$)");
         String[] tok = dir.split("/");
-        //VideoFileName = VideoDir + tok[1];
+        // VideoFileName = VideoDir + tok[1];
         VideoFileName = VideoDir + tok[3];
         logger.log(Level.CONFIG, "File: " + VideoFileName);
       }
@@ -451,7 +450,7 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
           RTSPSeqNb = Integer.parseInt(tokens.nextToken());
         } else if (line.contains("Transport")) {
           sdpTransportLine = line;
-          RTP_dest_port = Integer.parseInt( line.split("=")[1].split("-")[0] );
+          RTP_dest_port = Integer.parseInt(line.split("=")[1].split("-")[0]);
           FEC_dest_port = RTP_dest_port + 0;
           logger.log(Level.FINE, "Client-Port: " + RTP_dest_port);
         }
@@ -485,15 +484,15 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
       // 3th line depends on Request
       switch (method) {
         case OPTIONS:
-          RTSPBufferedWriter.write(options() );
+          RTSPBufferedWriter.write(options());
           break;
         case DESCRIBE:
-          RTSPBufferedWriter.write(describe() );
+          RTSPBufferedWriter.write(describe());
           break;
         case SETUP:
           RTSPBufferedWriter.write(sdpTransportLine + ";server_port=");
           RTSPBufferedWriter.write(RTPsocket.getLocalPort() + "-");
-          RTSPBufferedWriter.write((RTPsocket.getLocalPort()+1) + "" + CRLF);
+          RTSPBufferedWriter.write((RTPsocket.getLocalPort() + 1) + "" + CRLF);
           // RTSPBufferedWriter.write(";ssrc=0;mode=play" + CRLF);
         default:
           RTSPBufferedWriter.write("Session: " + RTSP_ID + ";timeout=30000" + CRLF);
@@ -501,7 +500,8 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
       }
 
       // Send end of response
-      if (method != DESCRIBE) RTSPBufferedWriter.write(CRLF);
+      if (method != DESCRIBE)
+        RTSPBufferedWriter.write(CRLF);
       RTSPBufferedWriter.flush();
       logger.log(Level.FINE, "*** RTSP-Server - Sent response to Client ***");
 
@@ -512,17 +512,18 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
     }
   }
 
-  /** Creates a OPTIONS response string
-   * @return  Options string, starting with: Public: ...
+  /**
+   * Creates a OPTIONS response string
+   * 
+   * @return Options string, starting with: Public: ...
    */
-  //TASK Complete the OPTIONS response
+  // Complete the OPTIONS response
   private String options() {
-    return "....";
+    return "Public: DESCRIBE, SETUP, TEARDOWN, PLAY, PAUSE" + CRLF;
   }
 
-
   /** Creates a DESCRIBE response string in SDP format for current media */
-  //TASK Complete the DESCRIBE response
+  // Complete the DESCRIBE response
   private String describe() {
     StringWriter rtspHeader = new StringWriter();
     StringWriter rtspBody = new StringWriter();
@@ -530,13 +531,20 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
 
     // Write the body first so we can get the size later
     rtspBody.write("v=0" + CRLF);
-    rtspBody.write("...");
-    rtspBody.write("...");
-    rtspBody.write("...");
+    rtspBody.write("o=Mauritius Berger" + CRLF);
+    rtspBody.write("s=" + CRLF);
+    rtspBody.write("t=0" + CRLF);
+    try {
+      rtspBody.write("m= video " + this.RTPsocket.getLocalPort() + " RTP/AVP " + MJPEG_TYPE + CRLF);
+    } catch (Exception e) {
+      rtspBody.write("m= video 0" + " RTP/AVP " + MJPEG_TYPE + CRLF);
+    }
+    rtspBody.write("a= rtpmap:" + MJPEG_TYPE + " JPEG/90000" + CRLF);
 
-    rtspHeader.write("Content-Base: " + "");
-    rtspHeader.write("Content-Type: " + "");
-    rtspHeader.write("Content-Length: " + "");
+    rtspHeader
+        .write("Content-Base: " + "rtsp://localhost:" + this.RTSPsocket.getLocalPort() + "/" + VideoFileName + CRLF);
+    rtspHeader.write("Content-Type: " + "application/sdp" + CRLF);
+    rtspHeader.write("Content-Length: " + rtspBody.getBuffer().length() + CRLF);
     rtspHeader.write(CRLF);
 
     return rtspHeader.toString() + rtspBody.toString();
@@ -585,21 +593,22 @@ public class Server extends JFrame implements ActionListener, ChangeListener {
     panel.add(e_jpeg, gbc);
   }
 
-  /** Get the metadata from a video file.
+  /**
+   * Get the metadata from a video file.
    *
-   *  If no metadata is available, all fields are zero-initialized with
-   *  exception of the framerate. Because the framerate is strongly required,
-   *  it is set to a default value.
+   * If no metadata is available, all fields are zero-initialized with
+   * exception of the framerate. Because the framerate is strongly required,
+   * it is set to a default value.
    *
-   *  @param filename Name of the video file
-   *  @return metadata structure containing the extracted information
+   * @param filename Name of the video file
+   * @return metadata structure containing the extracted information
    */
   private static VideoMetadata getVideoMetadata(String filename) {
     Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     VideoMetadata meta = null;
 
     String splittedFilename[] = filename.split("\\.");
-    switch (splittedFilename[splittedFilename.length-1]) {
+    switch (splittedFilename[splittedFilename.length - 1]) {
       case "avi":
         meta = AviMetadataParser.parse(filename);
         break;

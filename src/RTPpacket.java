@@ -3,6 +3,7 @@ import java.util.logging.Logger;
 
 public class RTPpacket {
 
+  // @formatter:off
   /*
     0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -17,7 +18,7 @@ public class RTPpacket {
    |                             ....                              |
    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
    */
-
+   // @formatter:on
 
   // size of the RTP header:
   static int HEADER_SIZE = 12;
@@ -71,27 +72,25 @@ public class RTPpacket {
     System.arraycopy(data, 0, payload, 0, data_length);
 
     // ! Do not forget to uncomment method printheader() below, if desired !
+    printheader();
   }
-
 
   public void setRtpHeader() {
-    //TASK fill the header array of byte with RTP header fields
-    /*
-    header[0] =
-    header[1] =
-    header[2] =
-    header[3] =
-    header[4] =
-    header[5] =
-    header[6] =
-    header[7] =
-    header[8] =
-    header[8] =
-    header[10] =
-    header[11] =
-     */
-  }
+        // fill the header array of byte with RTP header fields
 
+        header[0] =     (byte) (Version << 6 | Padding << 5 | Extension << 4 | CC);
+        header[1] =     (byte) (Marker << 7 | PayloadType);
+        header[2] =     (byte) (SequenceNumber >>> 8);
+        header[3] =     (byte) (SequenceNumber & 0xFF);
+        header[4] =     (byte) (TimeStamp >>> 24);
+        header[5] =     (byte) (TimeStamp >>> 16);
+        header[6] =     (byte) (TimeStamp >>> 8);
+        header[7] =     (byte) (TimeStamp & 0xFF);
+        header[8] =     (byte) (Ssrc >>> 24);
+        header[9] =     (byte) (Ssrc >>> 16);
+        header[10] =    (byte) (Ssrc >>> 8);
+        header[11] =    (byte) (Ssrc & 0xFF);
+  }
 
   // --------------------------
   // Constructor of an RTPpacket object from the packet bistream
@@ -119,11 +118,10 @@ public class RTPpacket {
       // interpret the changing fields of the header:
       PayloadType = header[1] & 127;
       SequenceNumber = unsigned_int(header[3]) + 256 * unsigned_int(header[2]);
-      TimeStamp =
-          unsigned_int(header[7])
-              + 256 * unsigned_int(header[6])
-              + 65536 * unsigned_int(header[5])
-              + 16777216 * unsigned_int(header[4]);
+      TimeStamp = unsigned_int(header[7])
+          + 256 * unsigned_int(header[6])
+          + 65536 * unsigned_int(header[5])
+          + 16777216 * unsigned_int(header[4]);
     }
   }
 
@@ -140,7 +138,6 @@ public class RTPpacket {
     System.arraycopy(payload, 0, data, 0, payload_size);
     return data;
   }
-
 
   // --------------------------
   // getpayload_length: return the length of the payload
@@ -178,9 +175,6 @@ public class RTPpacket {
     return packet;
   }
 
-
-
-
   // --------------------------
   // gettimestamp
   // --------------------------
@@ -203,22 +197,21 @@ public class RTPpacket {
     return (PayloadType);
   }
 
-
   /**
    * Print RTP header without SSRC
    */
   public void printheader() {
-    printheader(HEADER_SIZE-4, header);
+    printheader(HEADER_SIZE - 4, header);
   }
 
   /**
    * print the payload of a RTP packet
+   * 
    * @param n Number of bytes to print
    */
   public void printpayload(int n) {
     printheader(n, payload);
   }
-
 
   void printheader(int size, byte[] data) {
     Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -229,7 +222,6 @@ public class RTPpacket {
     }
     logger.log(Level.FINER, b);
   }
-
 
   // return the unsigned value of 8-bit integer nb
   static int unsigned_int(int nb) {

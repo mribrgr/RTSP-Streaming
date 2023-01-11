@@ -3,21 +3,21 @@ Die Aufgaben beziehen sich auf den Beleg Videostreaming für das Modul Internett
 
 ## Aufgaben
 
-### 1. RTSP-Protokoll im Client
-Ergänzen Sie die Klasse Client entsprechend der in der Projektbeschreibung und den Kommentaren im Quelltext gegebenen Hinweisen. Damit wird das RTSP-Protokoll im Client vervollständigt. Lassen die den Abschnitt zur Statistik zunächst unbearbeitet. Dieser Teil wird in Abschnitt 5 bearbeitet.
+<!-- ### 1. RTSP-Protokoll im Client
+Ergänzen Sie die Klasse Client entsprechend der in der Projektbeschreibung und den Kommentaren im Quelltext gegebenen Hinweisen. Damit wird das RTSP-Protokoll im Client vervollständigt. Lassen die den Abschnitt zur Statistik zunächst unbearbeitet. Dieser Teil wird in Abschnitt 5 bearbeitet. -->
 
-### 2. RTSP-Methoden im Server
+<!-- ### 2. RTSP-Methoden im Server
 Ergänzen Sie die RTSP-Methoden OPTIONS und DESCRIBE anhand der Beispiele aus [RFC 2326](https://www.ietf.org/rfc/rfc2326.txt) und [RFC 2327](https://www.ietf.org/rfc/rfc2327.txt). 
 Die Serverantwort muss im Client nicht ausgewertet werden. Die Anzeige der Antwort in der Konsole des Clients genügt.
 
-Es ist ausreichend, sich bei der DESCRIBE-Methode auf das Beispielvideo zu beziehen und die Antwort auf dem Server statisch zu hinterlegen. 
+Es ist ausreichend, sich bei der DESCRIBE-Methode auf das Beispielvideo zu beziehen und die Antwort auf dem Server statisch zu hinterlegen.  -->
 
-### 3. RTP-Protokoll in Klasse RTPpacket
-Ergänzen Sie die Klasse RTPpacket entsprechend der in der Projektbeschreibung und den Kommentaren im Quelltext gegebenen Hinweisen.
+<!-- ### 3. RTP-Protokoll in Klasse RTPpacket
+Ergänzen Sie die Klasse RTPpacket entsprechend der in der Projektbeschreibung und den Kommentaren im Quelltext gegebenen Hinweisen. -->
 
-### 4. Simulation von Paketverlusten
-Simulieren Sie Paketverluste und eine variable Verzögerung im Netz, indem Sie am Sender eine wahlweise Unterdrückung von zu sendenden Paketen vornehmen. Diese Unterdrückung von Paketen sollte zufällig und mit einstellbarer Paketverlustwahrscheinlichkeit über das GUI erfolgen. Beispiel: der Wert 0,1 bedeutet, es werden im Mittel 10% der zu übertragenen Pakete unterdrückt. Passen dazu den Quelltext im Server an.
-
+<!-- ### 4. Simulation von Paketverlusten
+Simulieren Sie Paketverluste und eine variable Verzögerung im Netz, indem Sie am Sender eine wahlweise Unterdrückung von zu sendenden Paketen vornehmen. Diese Unterdrückung von Paketen sollte zufällig und mit einstellbarer Paketverlustwahrscheinlichkeit über das GUI erfolgen. Beispiel: der Wert 0,1 bedeutet, es werden im Mittel 10% der zu übertragenen Pakete unterdrückt. Passen dazu den Quelltext im Server an. -->
+<!-- 
 ### 5. Anzeige von Statistiken am Client
 Um die simulierten Netzwerkeigenschaften prüfen zu können und die Leistungsfähigkeit der später zu integrierenden Fehlerschutzcodes einschätzen zu können, ist eine Statistikanzeige notwendig.
 Folgende Werte sollten mindestens peridisch am Client angezeigt werden:
@@ -29,7 +29,7 @@ Folgende Werte sollten mindestens peridisch am Client angezeigt werden:
 6. verlorene Bilder
 
 Mit dem ersten Punkt kann die Qualität der Verbindung eingeschätzt werden und mit dem zweiten Punkt die Leistungsfähigkeit des FEC-Verfahrens.
-Machen Sie sich Gedanken über weitere zu überwachende Parameter. Die meisten dieser Daten können aus der Klasse ReceptionStatistic entnommen werden. Verifizieren Sie die korrekte Berechnung dieser Werte.
+Machen Sie sich Gedanken über weitere zu überwachende Parameter. Die meisten dieser Daten können aus der Klasse ReceptionStatistic entnommen werden. Verifizieren Sie die korrekte Berechnung dieser Werte. -->
 
 
 ### 6. Implementierung des FEC-Schutzes

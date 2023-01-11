@@ -209,7 +209,7 @@ public class Client {
     RTSPSeqNb = 1;
   }
 
-  // TASK Complete all button handlers
+  // Complete all button handlers
   /** Handler for the Setup button */
   class setupButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
@@ -227,9 +227,9 @@ public class Client {
 
         // Init non-blocking RTPsocket that will be used to receive data
         try {
-          // TASK construct a new DatagramSocket to receive server RTP packets on port
+          // construct a new DatagramSocket to receive server RTP packets on port
           // RTP_RCV_PORT
-          RTPsocket = new DatagramSocket();
+          RTPsocket = new DatagramSocket(rtspPort);
 
           // for now FEC packets are received via RTP-Port, so keep comment below
           // FECsocket = new DatagramSocket(FEC_RCV_PORT);
@@ -472,27 +472,19 @@ public class Client {
     private void setStatistics(ReceptionStatistic rs) {
       DecimalFormat df = new DecimalFormat("###.###");
       pufferLabel.setText(
-          "Puffer: "
-              + (rs.latestSequenceNumber - rs.playbackIndex)
-              + " aktuelle Nr. / Summe empf.: "
-              + rs.latestSequenceNumber + " / " + rs.receivedPackets);
+          "Puffer: " + (rs.latestSequenceNumber - rs.playbackIndex)
+              + " aktuelle Nr.:" + rs.latestSequenceNumber
+              + " / Summe empf.:" + rs.receivedPackets);
       statsLabel.setText(
-          "<html>Abspielzähler / verlorene Medienpakete // Bilder / verloren: "
-              + rs.playbackIndex
-              + " / "
-              + rs.packetsLost
-              + "<p/>"
-              + rs.requestedFrames
-              + " / "
-              + rs.framesLost
-              + "</html>");
+          "Abspielzähler:" + rs.playbackIndex
+              + " / verlorene Medienpakete:" + rs.packetsLost
+              + " // Bilder: " + rs.requestedFrames
+              + "/ verloren:" + rs.framesLost);
       fecLabel.setText(
-          "FEC: korrigiert / nicht korrigiert: "
-              + rs.correctedPackets
-              + " / "
-              + rs.notCorrectedPackets
-              + "  Ratio: "
-              + df.format((float) rs.notCorrectedPackets / (float) rs.latestSequenceNumber));
+          "FEC: "
+              + "korrigiert:" + rs.correctedPackets
+              + " / nicht korrigiert:" + rs.notCorrectedPackets
+              + "  Ratio: " + df.format((float) rs.notCorrectedPackets / (float) rs.latestSequenceNumber));
     }
   }
 
