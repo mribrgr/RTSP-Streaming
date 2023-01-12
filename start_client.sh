@@ -3,9 +3,14 @@
 # es wird die Verzeichnisstruktur von IntelliJ IDEA angenommen
 # für Eclipse sind die Verzeichnisse entsprechend anzupassen
 
-host=$1
-port=$2
-video=$3
+host=localhost
+# port=$2
+# video=$3
+
+port=8554
+video=htw.mjpeg
+# video=mystream
+# video=../../Contents/htw.mjpeg
 
 src=src
 bin=out/production/RTSP-Streaming
