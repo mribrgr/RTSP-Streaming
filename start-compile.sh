@@ -5,8 +5,8 @@
 
 port=8554
 # video=videos/htw.mjpeg
-video=htw.mjpeg
-# video=handyvideo.mjpeg
+# video=htw.mjpeg
+video=handyvideo.mjpeg
 src=src
 bin=out/production/RTSP-Streaming
 

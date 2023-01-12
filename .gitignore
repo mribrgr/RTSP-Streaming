@@ -2,7 +2,6 @@ bin/
 old/
 out/
 .DS_Store
-videos/
-*.mjpeg
+htw.mjpeg
 .vscode/
 lib/
