@@ -31,7 +31,7 @@ Folgende Werte sollten mindestens peridisch am Client angezeigt werden:
 Mit dem ersten Punkt kann die Qualität der Verbindung eingeschätzt werden und mit dem zweiten Punkt die Leistungsfähigkeit des FEC-Verfahrens.
 Machen Sie sich Gedanken über weitere zu überwachende Parameter. Die meisten dieser Daten können aus der Klasse ReceptionStatistic entnommen werden. Verifizieren Sie die korrekte Berechnung dieser Werte. -->
 
-
+<!-- 
 ### 6. Implementierung des FEC-Schutzes
 
 Implementieren Sie einen FEC-Schutz gemäß [RFC 5109](https://www.ietf.org/rfc/rfc5109.txt).
@@ -46,7 +46,7 @@ Um nicht die komplette FEC-Funktionalität selbst entwickeln zu müssen, werden 
 
 Die Fehlerkorrektur im FecHandler ist noch zu implementieren. Dazu ist die vorhandene Architektur zu analysieren und die TASK-Abschnitte zu bearbeiten.
 
-Eine Übersicht über die relevanten Datenstrukturen und ein Beispiel ist hier zu finden [FEC-Diagramme](https://www2.htw-dresden.de/~jvogt/it2/fec-diagramme.html)
+Eine Übersicht über die relevanten Datenstrukturen und ein Beispiel ist hier zu finden [FEC-Diagramme](https://www2.htw-dresden.de/~jvogt/it2/fec-diagramme.html) -->
 
 
 #### Architektur der Paketverarbeitung
@@ -103,28 +103,28 @@ Hier einige Tipps für die Fehlersuche:
 
 
 ### 7. Test und Dokumentation
-
+<!-- 
 #### Video
-Binden Sie ein kurzes (ca. 0,5 - 2 min) Video Ihrer Wahl ein. Eine Umcodierung zu MJPEG kann zum Beispiel mittels VLC-Player erfolgen. Eventuell müssen Sie die Auflösung des Videos verringern, damit die Bilder jeweils in ein UDP-Paket passen.
+Binden Sie ein kurzes (ca. 0,5 - 2 min) Video Ihrer Wahl ein. Eine Umcodierung zu MJPEG kann zum Beispiel mittels VLC-Player erfolgen. Eventuell müssen Sie die Auflösung des Videos verringern, damit die Bilder jeweils in ein UDP-Paket passen. -->
 
-#### Parameterwahl
-Finden Sie den optimalen Wert für k bei einer Kanalverlustrate von 10%. Optimal bedeutet in diesem Fall eine subjektiv zufriedenstellende Bildqualität bei geringstmöglicher Redundanz.
+<!-- #### Parameterwahl
+Finden Sie den optimalen Wert für k bei einer Kanalverlustrate von 10%. Optimal bedeutet in diesem Fall eine subjektiv zufriedenstellende Bildqualität bei geringstmöglicher Redundanz. -->
 
-#### Bestimmung der theoretisch zu erwartenden Verlustraten
+<!-- #### Bestimmung der theoretisch zu erwartenden Verlustraten
 Versuchen Sie, mathematisch die Paketverlustwahrscheinlichkeit (Restfehler) für verschiedene Gruppengrößen (k=2, 3, 5, 10, 20, 48) zu bestimmen.
-Tragen Sie die Ergebnisse in einem Diagramm über der Kanalfehlerwahrscheinlichkeit auf. Sie können hierfür Gnuplot, R oder ein anderes Tool nutzen. Tragen Sie in das Diagramm zusätzlich mit Ihrem Videostreaming praktisch gemessene Fehlerhäufigkeiten auf (k=2 und k=48). Diskutieren Sie eventuelle Unterschiede zum theoretisch ermittelten Ergebnis.
+Tragen Sie die Ergebnisse in einem Diagramm über der Kanalfehlerwahrscheinlichkeit auf. Sie können hierfür Gnuplot, R oder ein anderes Tool nutzen. Tragen Sie in das Diagramm zusätzlich mit Ihrem Videostreaming praktisch gemessene Fehlerhäufigkeiten auf (k=2 und k=48). Diskutieren Sie eventuelle Unterschiede zum theoretisch ermittelten Ergebnis. -->
 
 
-#### Kompatibilität
-Prüfen Sie die Kompatibilität des Clients und Servers mit dem VLC-Player und versuchen Sie eventuelle Probleme zu analysieren. Bei Problemen mit VLC 3 versuchen Sie VLC 2.2.
+<!-- #### Kompatibilität
+Prüfen Sie die Kompatibilität des Clients und Servers mit dem VLC-Player und versuchen Sie eventuelle Probleme zu analysieren. Bei Problemen mit VLC 3 versuchen Sie VLC 2.2. -->
 
 
-#### Dokumentation
+<!-- #### Dokumentation
 Im Falle einer eigenen Architektur des FecHandlers ist eine Dokumentation notwendig, ansonsten nicht.
-Beschreiben Sie die Architektur Ihrer Implementierung anhand sinnvoller Softwarebeschreibungsmethoden (Klassendiagramm, Zustandsdiagramm, etc.). Eine Quellcodekommentierung ist dazu nicht ausreichend!
+Beschreiben Sie die Architektur Ihrer Implementierung anhand sinnvoller Softwarebeschreibungsmethoden (Klassendiagramm, Zustandsdiagramm, etc.). Eine Quellcodekommentierung ist dazu nicht ausreichend! -->
 
-#### Vorschläge
-Manchen Sie konkrete Vorschläge zur Verbesserungen des Belegs.
+<!-- #### Vorschläge
+Manchen Sie konkrete Vorschläge zur Verbesserungen des Belegs. -->
 
 
 
